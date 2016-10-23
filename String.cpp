@@ -121,7 +121,11 @@ String String::operator+=(const String string)
 
 void String::print(ostream &out)
 {
-    out << buf;
+    int strLen = strlen(buf);
+    for (int i = 0; i < strLen; ++i)
+    {
+        out << buf[i];
+    }
 }
 
 void String::read(istream &in)

@@ -181,20 +181,21 @@ void test_operator_plus_equal()
 int main()
 {
     test_constructor_and_print();
-    test_constructor2_and_print();
+
+//    test_constructor2_and_print();
 //    test_read();
-    test_operator_assignment();
-    test_size();
-    test_reverse();
-    test_indexOf();
-    test_operator_equal();
-    test_operator_not_equal();
-    test_operator_greater();
-    test_operator_less();
-    test_operator_greater_or_equal();
-    test_operator_less_or_equal();
-    test_operator_plus();
-    test_operator_plus_equal();
+//    test_operator_assignment();
+//    test_size();
+//    test_reverse();
+//    test_indexOf();
+//    test_operator_equal();
+//    test_operator_not_equal();
+//    test_operator_greater();
+//    test_operator_less();
+//    test_operator_greater_or_equal();
+//    test_operator_less_or_equal();
+//    test_operator_plus();
+//    test_operator_plus_equal();
 
     return 0;
 }
