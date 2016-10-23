@@ -121,8 +121,9 @@ String String::operator+=(const String string)
 
 void String::print(ostream &out)
 {
-    int strLen = strlen(buf);
-    for (int i = 0; i < strLen; ++i)
+    int strLength = strlen(buf);
+
+    for (int i = 0; i < strLength; ++i)
     {
         out << buf[i];
     }
@@ -156,11 +157,12 @@ char *String::strcpy(char *dest, const char *src)
     {
         delete[] dest;
     }
-    dest           = new char[srcLength];
+    dest           = new char[srcLength + 1];
 
     while (strIndex < srcLength)
     {
-        dest[strIndex] = src[strIndex];
+        (dest)[strIndex] = src[strIndex];
+        cout << "Char " << strIndex << " : " << dest[strIndex] << endl;
         ++strIndex;
     }
     dest[strIndex] = '\0';
