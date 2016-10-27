@@ -129,11 +129,11 @@ void String::print(ostream &out)
 
 void String::read(istream &in)
 {
-    
-    char *input = new char[2000];
+    char *input = new_char_array(2000);
     in.getline(input, 2000);
     delete_char_array(buf);
     buf = strdup(input);
+    delete_char_array(input);
 }
 
 int String::strlen(const char *s)
@@ -152,7 +152,7 @@ char *String::strcpy(char *dest, const char *src)
     int srcLength;
     int strIndex;
 
-    srcLength = strlen(src);
+    srcLength = strlen(src) + 1;
     strIndex  = 0;
 
     while (strIndex < srcLength)

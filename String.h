@@ -93,7 +93,7 @@ class String
         static char * new_char_array(int n_bytes)
         {
             ++allocations; 
-            return new char[n_bytes];
+            return new char[int(n_bytes)+1];
         }
 
         static void delete_char_array(char * p)
