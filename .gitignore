@@ -96,3 +96,5 @@ fabric.properties
 *.su
 string_test
 core.*
+test_string
+standard_main

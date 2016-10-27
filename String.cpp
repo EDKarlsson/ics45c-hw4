@@ -4,14 +4,13 @@
 
 #include "String.h"
 
-String::String(const char *s, int allocs)
-    :numAllocations(allocs)
+int String::allocations = 0;
+String::String(const char *s)
 {
     buf = strdup(s);
 }
 
-String::String(const String &string, int allocs)
-    :numAllocations(allocs)
+String::String(const String &string)
 {
     buf = strdup(string.buf);
 }
@@ -30,6 +29,7 @@ String String::operator=(const String &string)
 
 char &String::operator[](int index)
 {
+    if(index > strlen(buf)) error("Index out of bounds!");
     return buf[index];
 }
 
@@ -44,7 +44,7 @@ String String::reverse()
     char reversed[bufSize];
     int  j       = 0;
 
-    for (int i  = bufSize - 2; i >= 0; --i)
+    for (int i  = bufSize - 1; i >= 0; --i)
     {
         reversed[j] = buf[i];
         ++j;
@@ -129,13 +129,16 @@ void String::print(ostream &out)
 
 void String::read(istream &in)
 {
-    in >> buf;
+    
+    char *input = new_char_array(2000);
+    in.getline(input, 2000);
+    buf = strdup(input);
 }
 
 int String::strlen(const char *s)
 {
     int index = 0;
-    while (s[index] != '\0')
+    while (s != NULL && s[index] != '\0')
     {
         ++index;
     }
@@ -169,8 +172,22 @@ char *String::strcat(char *dest, const char *src)
 
 int String::strcmp(const char *left, const char *right)
 {
-    int stringLength = strlen(left) + strlen(right);
-    return strncmp(left, right, stringLength);
+    int leftStringLength = strlen(left);
+    int rightStringLength = strlen(right);
+    if(leftStringLength == 0)
+    {
+        if(rightStringLength == 0)
+            return 0;
+        else
+            return rightStringLength;
+    }
+    else
+    {
+        if(rightStringLength == 0)
+            return leftStringLength;
+    }
+
+    return strncmp(left, right, rightStringLength + leftStringLength);
 }
 
 int String::strncmp(const char *left, const char *right, int n)
@@ -204,13 +221,15 @@ const char *String::strchr(const char *str, int c)
 {
     int  i     = 0;
     bool found = false;
-    while (str[i] != '\0' && !found)
+    while (str != nullptr && str[i] != '\0' && !found)
     {
         if (str[i] == c)
         {
             found = true;
         }
-        ++i;
+        else{
+            ++i;
+        }
     }
     if (!found)
     {
@@ -246,7 +265,7 @@ const char *String::strstr(const char *haystack, const char *needle)
     return NULL;
 }
 
-ostream &operator<<(ostream &out, String &str)
+ostream &operator<<(ostream &out, String str)
 {
     str.print(out);
     return out;
@@ -261,18 +280,4 @@ istream &operator>>(istream &in, String &str)
 char* String::strdup(const char* src)
 {
     return strcpy(new_char_array( strlen(src) + 1 ), src);
-}
-
-char * String::new_char_array(int n_bytes)
-{
-    char* newBuf = new char[n_bytes];
-    return newBuf;
-}
-
-void String::delete_char_array(char * p)
-{
-    if (p != NULL)
-    {
-        delete [] p;
-    }
 }

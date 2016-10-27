@@ -14,9 +14,9 @@ class String
     public:
         // Both constructors should construct
         //  this String from the parameter s
-        String(const char *s = "", int allocs = 0);
+        String(const char *s = "");
 
-        String(const String &string, int allocs = 0);
+        String(const String &string);
 
         ~String();
 
@@ -53,9 +53,18 @@ class String
         String operator+=(const String string);
 
         String operator=(const String &string);
-
-
+    
+        void ouput_allocations(ostream &out);
+    
+        static void final_report_on_allocations()
+        {
+            if(allocations > 0) error("Memory leak in class String");
+            if(allocations < 0) error("Too many delete[]s in class String");
+            if(allocations == 0) cout << "Allocations & deallocations match\n";
+        }
     private:
+        static int allocations;
+
         static int strlen(const char *s);
 
         static char *strcpy(char *dest, const char *src);
@@ -81,14 +90,26 @@ class String
             return i >= 0 && i < strlen(buf);
         }
         
-        int numAllocations;
+        static char * new_char_array(int n_bytes)
+        {
+            ++allocations; 
+            return new char[n_bytes];
+        }
 
-        static char* new_char_array(int n_bytes);
+        static void delete_char_array(char * p)
+        {
+            --allocations;
+            if(allocations < 0) error("more delete[] than new[]");
+            delete [] p;
+        }
 
-        static void delete_char_array(char *p);
+        static void error(const char *str)
+        {
+            cout << "ERROR: " << str << endl;
+        }
 };
 
-ostream &operator<<(ostream &out, String &str);
+ostream &operator<<(ostream &out, String str);
 
 istream &operator>>(istream &in, String &str);
 
