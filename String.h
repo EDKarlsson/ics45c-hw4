@@ -14,9 +14,9 @@ class String
     public:
         // Both constructors should construct
         //  this String from the parameter s
-        String(const char *s = "");
+        String(const char *s = "", int allocs = 0);
 
-        String(const String &string);
+        String(const String &string, int allocs = 0);
 
         ~String();
 
@@ -70,6 +70,8 @@ class String
 
         const static char *strstr(const char *haystack, const char *needle);
 
+        static char *strdup(const char *src);
+
         char *buf; // array for the characters in this string
         // DO NOT store the ‘logical’ length of this string
         // use the null ‘\0’ terminator to mark the end
@@ -78,7 +80,12 @@ class String
         {
             return i >= 0 && i < strlen(buf);
         }
+        
+        int numAllocations;
 
+        static char* new_char_array(int n_bytes);
+
+        static void delete_char_array(char *p);
 };
 
 ostream &operator<<(ostream &out, String &str);

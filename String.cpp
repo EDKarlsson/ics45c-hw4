@@ -4,29 +4,27 @@
 
 #include "String.h"
 
-String::String(const char *s)
+String::String(const char *s, int allocs)
+    :numAllocations(allocs)
 {
-    buf = NULL;
-    strcpy(buf, s);
+    buf = strdup(s);
 }
 
-String::String(const String &string)
+String::String(const String &string, int allocs)
+    :numAllocations(allocs)
 {
-    buf = NULL;
-    strcpy(buf, string.buf);
+    buf = strdup(string.buf);
 }
 
 String::~String()
 {
-    if (buf != NULL)
-    {
-        delete[]buf;
-    }
+    delete_char_array(buf);
 }
 
 String String::operator=(const String &string)
 {
-    strcpy(buf, string.buf);
+    delete_char_array(buf);
+    buf = strdup(string.buf);
     return *this;
 }
 
@@ -153,16 +151,9 @@ char *String::strcpy(char *dest, const char *src)
     srcLength = strlen(src);
     strIndex  = 0;
 
-    if (dest != NULL)
-    {
-        delete[] dest;
-    }
-    dest           = new char[srcLength + 1];
-
     while (strIndex < srcLength)
     {
         (dest)[strIndex] = src[strIndex];
-        cout << "Char " << strIndex << " : " << dest[strIndex] << endl;
         ++strIndex;
     }
     dest[strIndex] = '\0';
@@ -265,4 +256,23 @@ istream &operator>>(istream &in, String &str)
 {
     str.read(in);
     return in;
+}
+
+char* String::strdup(const char* src)
+{
+    return strcpy(new_char_array( strlen(src) + 1 ), src);
+}
+
+char * String::new_char_array(int n_bytes)
+{
+    char* newBuf = new char[n_bytes];
+    return newBuf;
+}
+
+void String::delete_char_array(char * p)
+{
+    if (p != NULL)
+    {
+        delete [] p;
+    }
 }

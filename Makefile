@@ -1,7 +1,7 @@
 main: #simple_main.cpp
 	@echo ----------------- compiling simple_main.cpp to create executable program String -----------------
-	g++ -ggdb -std=c++11 String.cpp string_test.cpp -o string_test
-
+	g++ -g -std=c++11 String.cpp test_string.cpp -o test_string
+	g++ -g -std=c++11 String.cpp standard_main.cpp -o standard_main 
 clean:
 	@echo ----------------- removing executable program simple_main -----------------
 	/bin/rm String
