@@ -38,10 +38,12 @@ int main()
 	    cout << firstString << endl;
 
 
+        /*
 	    cout << (firstString < secondString) << endl;
 	    cout << (firstString <= thirdString) << endl;
 	    cout << (firstString > fourthString) << endl;
 	    cout << (firstString >= fifthString) << endl;
+        */
     }
     String::final_report_on_allocations();
     return 0;

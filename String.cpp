@@ -130,8 +130,9 @@ void String::print(ostream &out)
 void String::read(istream &in)
 {
     
-    char *input = new_char_array(2000);
+    char *input = new char[2000];
     in.getline(input, 2000);
+    delete_char_array(buf);
     buf = strdup(input);
 }
 
